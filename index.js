@@ -24,7 +24,12 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+// Corrected API route for fetching time
+app.get("/api/time", (req, res) => {
+  const currentTime = new Date();
+  console.log(`Request received. Current time: ${currentTime}`);
+  res.json({ time: currentTime.toISOString() });
+});
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {

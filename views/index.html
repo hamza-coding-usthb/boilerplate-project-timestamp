@@ -20,8 +20,34 @@
 
       <h2>Example Output:</h2>
       <p>
-        <code>{"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"}</code>
+        <code id ='result'>{Loading current time}</code>
       </p>
+      <script>
+        async function getCurrentTime(){
+    const resultElement = document.getElementById('result');
+    
+    try {
+        const response = await fetch("/api/time");  
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        
+        const data = await response.json(); // 
+
+        console.log("Fetched Data:", data);  
+
+        resultElement.textContent = JSON.stringify(data, null, 2);
+    } catch(error) {
+        console.error('Fetch Error:', error);
+        resultElement.textContent = `Error: Unable to fetch time. (${error.message})`;
+    }
+}
+
+
+getCurrentTime();
+      </script>
     </div>
     <div class="footer">
       <p>
