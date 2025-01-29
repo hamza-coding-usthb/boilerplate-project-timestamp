@@ -24,11 +24,37 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-// Corrected API route for fetching time
-app.get("/api/time", (req, res) => {
-  const currentTime = new Date();
-  console.log(`Request received. Current time: ${currentTime}`);
-  res.json({ time: currentTime.toISOString() });
+
+
+app.get("/api/:date?", (req, res) => {
+  let { date } = req.params;
+
+  
+  if (!date) {
+      const now = new Date();
+      return res.json({
+          unix: now.getTime(),
+          utc: now.toUTCString()
+      });
+  }
+
+  
+  if (!isNaN(date)) {
+      date = parseInt(date); 
+  }
+
+  const parsedDate = new Date(date);
+
+  
+  if (parsedDate.toString() === "Invalid Date") {
+      return res.json({ error: "Invalid Date" });
+  }
+
+  
+  return res.json({
+      unix: parsedDate.getTime(),
+      utc: parsedDate.toUTCString()
+  });
 });
 
 // Listen on port set in environment variable or default to 3000
